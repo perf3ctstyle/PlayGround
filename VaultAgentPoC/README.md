@@ -7,7 +7,7 @@
 vault-init-agent отрабатывает во время запуска поды и выключается, при этом он:
 * использует Service Account token для обращения к Vault
 * есть отдельный [Service Account](02-sa.yaml), для которого мы настраиваем kubernetes auth в Vault
-* Service Account token не маунтится автоматически в поду, а пробрасывается через Projected Volume исключительно в init container (смотреть строки 18-25 и 48-50 в [манифесте приложения](03-app.yaml))
+* Service Account token не маунтится автоматически в поду, а пробрасывается через Projected Volume исключительно в init container (смотреть строки [18-25](03-app.yaml#L18) и [48-50](03-app.yaml#L48) в [манифесте приложения](03-app.yaml))
 * конфиг для него задается в виде [ConfigMap](01-cm.yaml), при этом для него есть [документация](https://developer.hashicorp.com/vault/docs/agent-and-proxy/agent#configuration-file-options)
 
 Логика работы агента представлена [на схеме](https://developer.hashicorp.com/vault/tutorials/kubernetes-introduction/agent-kubernetes#challenge), но если ее упростить:
