@@ -13,6 +13,8 @@ spec:
       labels:
         k8s-app: nginx
     spec:
+      serviceAccountName: vault-init-agent
+      automountServiceAccountToken: false
       volumes:
         - name: vault-token
           projected:
@@ -28,7 +30,7 @@ spec:
           configMap:
             name: vault-agent-config
       initContainers:
-        - name: init-config
+        - name: vault-init-agent
           image: vault:1.9.3
           imagePullPolicy: IfNotPresent
           securityContext:
