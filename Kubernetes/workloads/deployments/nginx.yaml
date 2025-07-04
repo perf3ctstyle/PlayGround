@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+          env:
+            - name: NGINX_PORT
+              value: "81"
+          volumeMounts:
+            - mountPath: "/config"
+              name: config
+              readOnly: true
+            - mountPath: "/secret"
+              name: secret
+              readOnly: false
+      volumes:
+        - name: config
+          configMap:
+            name: nginx-config
+        - name: secret
+          secret:
+            secretName: nginx-secret

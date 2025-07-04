@@ -1,0 +1,34 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: secrets-template
+data:
+  app.secrets.template: |
+    {
+      "postgres": {{ with secret "secret/database/data/creds" }}{{ .Data }}{{ end }}
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-agent-config
+data:
+  vault-agent-init.hcl: |
+    pid_file = "/tmp/.pidfile"
+    auto_auth {
+      method "kubernetes" {
+        config = {
+          role = "vault-init-agent"
+          token_path = "/etc/vault/config/token/vault-token"
+        }
+      }
+    }
+    template {
+      source      = "/etc/vault/config/template/app.secrets.template"
+      destination = "/etc/vault/config/render/app.secrets"
+    }
+    vault {
+      address = "http://vault.vault.svc:8200"
+    }
+    exit_after_auth = true
