@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PlayGround.iml" filepath="$PROJECT_DIR$/.idea/PlayGround.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VaultWatcher.iml" filepath="$PROJECT_DIR$/VaultWatcher.iml" />
     </modules>
   </component>
 </project>
