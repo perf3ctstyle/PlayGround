@@ -22,13 +22,15 @@ spec:
             - serviceAccountToken:
                 path: vault-token
                 expirationSeconds: 7200
-                audience: vault
         - name: secrets-template
           configMap:
             name: secrets-template
         - name: vault-agent-config
           configMap:
             name: vault-agent-config
+        - name: rendered-secrets
+          emptyDir:
+            medium: "Memory"
       initContainers:
         - name: vault-init-agent
           image: vault:1.9.3
@@ -46,12 +48,14 @@ spec:
             - name: SKIP_SETCAP
               value: 'true'
           volumeMounts:
-            - mountPath: /etc/vault/config/token
-              name: vault-token
-            - mountPath: /etc/vault/config/template
-              name: secrets-template
             - mountPath: /etc/vault/config
               name: vault-agent-config
+            - mountPath: /etc/vault/config/template
+              name: secrets-template
+            - mountPath: /etc/vault/config/token
+              name: vault-token
+            - mountPath: /tmp
+              name: rendered-secrets
       containers:
         - name: nginx
           image: nginx:1.21.6-alpine
@@ -66,3 +70,6 @@ spec:
             requests:
               cpu: "0.1"
               memory: "200Mi"
+          volumeMounts:
+            - mountPath: /tmp
+              name: rendered-secrets

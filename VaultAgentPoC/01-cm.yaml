@@ -26,7 +26,7 @@ data:
     }
     template {
       source      = "/etc/vault/config/template/app.secrets.template"
-      destination = "/etc/vault/config/render/app.secrets"
+      destination = "/tmp/app.secrets"
     }
     vault {
       address = "http://vault.vault.svc:8200"
