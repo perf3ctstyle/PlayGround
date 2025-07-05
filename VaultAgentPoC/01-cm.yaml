@@ -6,7 +6,7 @@ metadata:
 data:
   app.secrets.template: |
     {
-      "postgres": {{ with secret "secret/database/data/creds" }}{{ .Data }}{{ end }}
+      "postgres": {{ with secret "secret/database/data/creds" }}{{ .Data.data }}{{ end }}
     }
 ---
 apiVersion: v1
